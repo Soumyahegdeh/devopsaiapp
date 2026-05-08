@@ -18,12 +18,6 @@ jobs:
       matrix:
         service:
           - auth
-          - gateway
-          - orders
-          - order-service
-          - product-service
-          - user-service
-          - frontend
 
     steps:
       - name: Checkout Code
