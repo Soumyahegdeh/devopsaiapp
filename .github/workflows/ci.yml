@@ -82,17 +82,17 @@ jobs:
           REGION=${{ secrets.AWS_REGION }}
 
           for SERVICE in auth gateway orders order-service product-service user-service; do
-            MANIFEST="gitops/k8s/backend/${SERVICE}.yml"
+            MANIFEST="projects/gitops/k8s/backend/${SERVICE}.yml"
             sed -i "s|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:.*|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:${NEW_TAG}|g" $MANIFEST
           done
 
-          sed -i "s|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:.*|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:${NEW_TAG}|g" gitops/k8s/frontend/deployment.yml
+          sed -i "s|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:.*|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:${NEW_TAG}|g" projects/gitops/k8s/frontend/deployment.yml
 
       - name: Commit and push updated manifests
         run: |
           git config user.name "soumyahegde"
           git config user.email "soumyahegde94@github.com"
-          git add gitops/k8s/
+          git add projects/gitops/k8s/
           git diff --staged --quiet || git commit -m "ci: update image tags to ${{ github.sha }}"
           git push
 
