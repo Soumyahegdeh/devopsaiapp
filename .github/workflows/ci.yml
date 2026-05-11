@@ -83,10 +83,10 @@ jobs:
 
           for SERVICE in auth gateway orders order-service product-service user-service; do
             MANIFEST="projects/gitops/k8s/backend/${SERVICE}.yml"
-            sed -i "s|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:.*|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:${NEW_TAG}|g" $MANIFEST
+            sed -i "s|${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:.*|${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:${NEW_TAG}|g" $MANIFEST
           done
 
-          sed -i "s|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:.*|${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:${NEW_TAG}|g" projects/gitops/k8s/frontend/deployment.yml
+          sed -i "s|${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/frontend:.*|${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/frontend:${NEW_TAG}|g" projects/gitops/k8s/frontend/deployment.yml
 
       - name: Commit and push updated manifests
         run: |
