@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/Soumyahegdeh/devopsaiapp.git'
     targetRevision: main
-    path: gitops
+    path: projects/gitops
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: boutique
