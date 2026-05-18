@@ -30,6 +30,13 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           config: auto
+          generateSarif: "1"
+
+      - name: Upload Semgrep results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+          if: always()  
 
   # security check  for individual services
   code_security:
