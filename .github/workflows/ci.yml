@@ -110,7 +110,8 @@ jobs:
           - gateway
           - orders
           - order-service
-         
+          - product-service
+          - user-service
 
     steps:
       - name: Checkout Code
