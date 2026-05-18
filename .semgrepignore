@@ -1,0 +1,23 @@
+# EKS public endpoint - intentional, required for kubectl access
+projects/Infrastructure/modules/eks/main.tf
+
+# VPC public subnets - intentional, public-facing application
+projects/Infrastructure/modules/vpc/main.tf
+
+# Lambda urllib - URLs sourced from AWS env vars, not user input
+projects/aiops-assistant/lambda/fetch_health/lambda_function.py
+projects/aiops-assistant/lambda/fetch_metrics/lambda_function.py
+
+# Express CSRF - REST API services use JWT not browser cookies
+# CSRF protection only applies to cookie-based browser sessions
+projects/boutique-microservices/backend/services/order-service/src/server.js
+projects/boutique-microservices/backend/services/product-service/src/server.js
+projects/boutique-microservices/backend/services/product-service/src/server-fixed.js
+projects/boutique-microservices/backend/services/user-service/src/server.js
+
+# image-service.js - path traversal already fixed with startsWith check
+projects/boutique-microservices/image-service.js
+
+# Database manifests - postgres requires root user to initialize
+projects/gitops/k8s/database/restore-job.yml
+projects/gitops/k8s/database/statefulset.yml
