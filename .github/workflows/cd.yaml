@@ -1,0 +1,46 @@
+name: Boutique CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Boutique CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  update-manifests:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # only on CI success
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Update image tags in k8s manifests
+        run: |
+          NEW_TAG=${{ github.event.workflow_run.head_sha }}
+          ACCOUNT=${{ secrets.AWS_ACCOUNT_ID }}
+          REGION=${{ secrets.AWS_REGION }}
+
+          for SERVICE in auth gateway orders order-service product-service user-service; do
+            MANIFEST="projects/gitops/k8s/backend/${SERVICE}.yml"
+            if [ -f "$MANIFEST" ]; then
+              sed -i "s|image:.*amazonaws.com/${SERVICE}:.*|image: ${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${SERVICE}:${NEW_TAG}|g" $MANIFEST
+            else
+              echo "Warning: $MANIFEST not found, skipping"
+            fi
+          done
+
+          sed -i "s|image:.*amazonaws.com/frontend:.*|image: ${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/frontend:${NEW_TAG}|g" \
+            projects/gitops/k8s/frontend/deployment.yml
+
+      - name: Commit and push updated manifests
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add projects/gitops/k8s/
+          git diff --staged --quiet || git commit -m "ci: update image tags to ${NEW_TAG}"
+          git push origin HEAD:main

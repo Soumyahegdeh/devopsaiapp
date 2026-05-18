@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: IMAGE_PLACEHOLDER
+          image: 00000000000.dkr.ecr.us-east-1.amazonaws.com/user-service:latest
           ports:
             - containerPort: 3006
           env:

@@ -1,0 +1,8 @@
+[allowlist]
+  description = "Allowlist for known false positives"
+  regexes = [
+    '''[0-9]{12}\.dkr\.ecr\.[a-z0-9-]+\.amazonaws\.com'''
+  ]
+  paths = [
+    '''gitops/k8s/.*\.yml'''
+  ]

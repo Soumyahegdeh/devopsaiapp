@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: IMAGE_PLACEHOLDER
+          image: 00000000000.dkr.ecr.us-east-1.amazonaws.com/auth:latest
           ports:
             - containerPort: 3002
           env:
