@@ -1,6 +1,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+# Upgrade npm to get patched bundled tar
+RUN npm install -g npm@latest
+
 COPY package*.json ./
 RUN npm ci
 
@@ -11,6 +14,9 @@ RUN npm run build
 FROM node:20-alpine
 ENV NODE_ENV=production
 WORKDIR /app
+
+# Upgrade npm to get patched bundled tar
+RUN npm install -g npm@latest
 
 COPY package*.json ./
 RUN npm ci --omit=dev
