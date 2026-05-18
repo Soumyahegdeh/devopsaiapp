@@ -156,9 +156,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ${{ env.BUILD_PATH }}
-          push: false
-          load: true
-          no-cache: true
+          push: true
           tags: |
             ${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG }}
             ${{ env.IMAGE_URI }}:latest
