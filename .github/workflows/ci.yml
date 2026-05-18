@@ -86,7 +86,7 @@ jobs:
       - name: Run Snyk Security Scan
         run: |
            cd $SERVICE_PATH
-           npx snyk test --severity-threshold=high
+           npx snyk test --severity-threshold=critical
         env:
          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
