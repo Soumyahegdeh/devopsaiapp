@@ -158,6 +158,7 @@ jobs:
           context: ${{ env.BUILD_PATH }}
           push: false
           load: true
+          no-cache: true
           tags: |
             ${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG }}
             ${{ env.IMAGE_URI }}:latest
