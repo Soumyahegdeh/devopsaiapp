@@ -108,7 +108,8 @@ jobs:
         service:
           - auth
           - gateway
-          
+          - orders
+         
 
     steps:
       - name: Checkout Code
