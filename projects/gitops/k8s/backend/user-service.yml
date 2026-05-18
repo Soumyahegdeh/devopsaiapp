@@ -13,9 +13,13 @@ spec:
       labels:
         app: user-service
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: user-service
           image: 00000000000.dkr.ecr.us-east-1.amazonaws.com/user-service:latest
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 3006
           env:

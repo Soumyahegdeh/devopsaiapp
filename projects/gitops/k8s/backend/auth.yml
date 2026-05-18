@@ -13,9 +13,13 @@ spec:
       labels:
         app: auth
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: auth
           image: 00000000000.dkr.ecr.us-east-1.amazonaws.com/auth:latest
+          securityContext:
+              allowPrivilegeEscalation: false  
           ports:
             - containerPort: 3002
           env:

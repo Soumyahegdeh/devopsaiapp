@@ -13,9 +13,13 @@ spec:
       labels:
         app: orders
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: orders
           image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/orders:latest
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 3005
           env:

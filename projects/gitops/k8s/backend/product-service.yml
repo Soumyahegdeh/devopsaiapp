@@ -13,9 +13,13 @@ spec:
       labels:
         app: product-service
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: product-service
           image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/product-service:latest
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 3003
           env:

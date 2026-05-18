@@ -13,9 +13,13 @@ spec:
       labels:
         app: order-service
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: order-service
           image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/order-service:latest
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 3004
           env:

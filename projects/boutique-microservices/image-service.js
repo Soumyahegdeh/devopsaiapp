@@ -29,10 +29,16 @@ app.use('/images', express.static(imagesPath));
 app.use('/product-images', express.static(imagesPath));
 
 // Enhanced image serving with fallbacks
+// Enhanced image serving with fallbacks
 app.get('/images/:filename', (req, res) => {
   const filename = req.params.filename;
   const imagePath = path.join(imagesPath, filename);
-  
+
+  // ✅ Security fix: prevent path traversal
+  if (!imagePath.startsWith(path.resolve(imagesPath))) {
+    return res.status(400).json({ error: 'Invalid filename' });
+  }
+
   // Check if file exists
   if (fs.existsSync(imagePath)) {
     res.sendFile(imagePath);
@@ -40,11 +46,15 @@ app.get('/images/:filename', (req, res) => {
     // Try to find a similar file (e.g., .svg instead of .jpg)
     const baseName = filename.split('.')[0];
     const svgPath = path.join(imagesPath, `${baseName}.svg`);
-    
+
+    // ✅ Security fix: prevent path traversal for svg path too
+    if (!svgPath.startsWith(path.resolve(imagesPath))) {
+      return res.status(400).json({ error: 'Invalid filename' });
+    }
+
     if (fs.existsSync(svgPath)) {
       res.sendFile(svgPath);
     } else {
-      // Return a placeholder image
       res.status(404).json({ 
         error: 'Image not found',
         filename: filename,

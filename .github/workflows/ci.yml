@@ -27,7 +27,7 @@ jobs:
 
       - name: Semgrep SAST Scan
         if: github.event_name == 'push'
-        uses: returntocorp/semgrep-action@v1
+        uses: semgrep/semgrep-action@v1
         with:
           config: auto
           generateSarif: "1"

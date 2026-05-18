@@ -13,9 +13,13 @@ spec:
       labels:
         app: gateway
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: gateway
           image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/gateway:latest
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 3001
           env:

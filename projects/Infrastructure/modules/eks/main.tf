@@ -26,7 +26,8 @@ resource "aws_eks_cluster" "eks" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_cluster_role.arn
   version  = "1.34"
-
+ 
+  enabled_cluster_log_types = ["api", "audit", "authenticator"] 
   vpc_config {
     subnet_ids = var.subnet_ids
     endpoint_public_access  = true
