@@ -150,7 +150,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ${{ env.BUILD_PATH }}
-          push: true
+          push: false                   
+          load: true  
           tags: |
             ${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG }}
             ${{ env.IMAGE_URI }}:latest
@@ -168,8 +169,15 @@ jobs:
 
       # Push image (only if scan passes)
       - name: Push Docker Image
-        run: |
-          docker push $IMAGE_URI:$IMAGE_TAG
-          docker push $IMAGE_URI:latest
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ env.BUILD_PATH }}
+          push: true                     # ← now push
+          tags: |
+            ${{ env.IMAGE_URI }}:${{ env.IMAGE_TAG }}
+            ${{ env.IMAGE_URI }}:latest
+          cache-from: type=gha        
+          cache-to: type=gha,mode=max
+    
 
     
